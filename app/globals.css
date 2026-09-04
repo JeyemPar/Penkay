@@ -181,6 +181,9 @@
 .panel-title { margin-top: 4px; font-size: 1.3rem; font-weight: 720; letter-spacing: -.025em; }
 .map-canvas { position: relative; min-height: 315px; overflow: hidden; border-radius: 18px; background: #e6eadb; background-image: radial-gradient(#9aa88a 1px, transparent 1px); background-size: 18px 18px; }
 .map-canvas svg { display: block; width: 100%; min-height: 270px; }
+.map-illustration-wrap { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 315px; padding: 24px 20px 62px; }
+.map-illustration-img { max-width: 100%; max-height: 290px; object-fit: contain; filter: drop-shadow(0 8px 24px rgb(23 61 42 / 12%)); transition: transform .3s ease; }
+.map-illustration-img:hover { transform: scale(1.03); }
 .contour { fill: none; stroke: #8da082; stroke-width: 1.4; opacity: .45; }
 .route-line { fill: none; stroke: #40634a; stroke-width: 3; stroke-dasharray: 7 7; }
 .plot { stroke: #5f7a42; stroke-width: 2; }
