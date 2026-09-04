@@ -52,7 +52,9 @@ type ModelContextLike = {
   ) => void | Promise<void>;
 };
 
-function ReportDialog() {
+import { PrintableReport } from '@/components/penkay/printable-report';
+
+function ReportDialog({ onPrint }: { onPrint: (report: typeof reportTypes[0]) => void }) {
   const [selected, setSelected] = useState('productivo');
   const [ready, setReady] = useState(false);
 
@@ -95,7 +97,9 @@ function ReportDialog() {
 
   const generate = () => {
     setReady(true);
-    window.setTimeout(() => window.print(), 250);
+    const selectedReport = reportTypes.find((r) => r.id === selected) || reportTypes[0];
+    onPrint(selectedReport);
+    window.setTimeout(() => window.print(), 300);
   };
 
   return (
@@ -103,7 +107,7 @@ function ReportDialog() {
       <DialogTrigger render={<Button size="lg" />}>
         <FileText data-icon="inline-start" /> Generar reporte
       </DialogTrigger>
-      <DialogContent className="report-dialog">
+      <DialogContent className="report-dialog print:hidden">
         <DialogHeader>
           <DialogTitle>Generar reporte</DialogTitle>
           <DialogDescription>
@@ -156,14 +160,31 @@ function ParcelMap() {
 }
 
 export default function ProfilePage() {
+  const [printReport, setPrintReport] = useState<typeof reportTypes[0] | null>(null);
+
+  // Hydration-safe state for the printable report values
+  const [mounted, setMounted] = useState(false);
+  const [reportDate, setReportDate] = useState('');
+  const [reportId, setReportId] = useState('');
+  const [reportHash, setReportHash] = useState('');
+
+  useEffect(() => {
+    setMounted(true);
+    setReportDate(new Date().toLocaleDateString('es-EC'));
+    setReportId(`PKY-RPT-${Math.floor(Math.random() * 10000)}`);
+    setReportHash(`0x${Array.from({length: 40}, () => Math.floor(Math.random()*16).toString(16)).join('')}`);
+  }, []);
+
   return (
-    <AppShell
-      active="Resumen"
-      eyebrow="Mi producción"
-      title="Buenos días, Juan"
-      description="Así está tu cultivo hoy. Todos los valores pertenecen al escenario piloto."
-      action={<ReportDialog />}
-    >
+    <>
+      <div className="print:hidden">
+        <AppShell
+          active="Resumen"
+          eyebrow="Mi producción"
+          title="Buenos días, Juan"
+          description="Así está tu cultivo hoy. Todos los valores pertenecen al escenario piloto."
+          action={<ReportDialog onPrint={setPrintReport} />}
+        >
       <section className="summary-metrics" aria-label="Resumen productivo">
         {producerMetrics.map((metric) => (
           <Card key={metric.label} className="summary-card">
@@ -260,6 +281,19 @@ export default function ProfilePage() {
           </Card>
         </aside>
       </div>
-    </AppShell>
+        </AppShell>
+      </div>
+
+      {mounted && printReport && (
+        <PrintableReport
+          title={`Reporte ${printReport.label.toLowerCase()}`}
+          detail="Datos verificados del escenario piloto."
+          icon={printReport.icon}
+          reportDate={reportDate}
+          reportId={reportId}
+          reportHash={reportHash}
+        />
+      )}
+    </>
   );
 }
