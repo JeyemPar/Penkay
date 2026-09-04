@@ -20,13 +20,13 @@ const samples = [
 ];
 
 const climateForecast = [
-  { day: 'Lun', temp: 24, hum: 40 },
-  { day: 'Mar', temp: 28, hum: 35 },
-  { day: 'Mié', temp: 31, hum: 25 },
-  { day: 'Jue', temp: 33, hum: 15 },
-  { day: 'Vie', temp: 27, hum: 45 },
-  { day: 'Sáb', temp: 22, hum: 60 },
-  { day: 'Dom', temp: 21, hum: 65 },
+  { day: 'Lun', temp: 24, hum: 40, status: 'Saludable', action: 'Monitoreo normal', soil: '45% (Óptimo)', alert: 'Clima estable sin riesgo hídrico.', img: '/images/estados-penco/penco-saludable.png', color: 'green' },
+  { day: 'Mar', temp: 28, hum: 35, status: 'Saludable', action: 'Monitoreo normal', soil: '38% (Adecuado)', alert: 'Aumento ligero de temperatura.', img: '/images/estados-penco/penco-saludable.png', color: 'green' },
+  { day: 'Mié', temp: 31, hum: 25, status: 'Atención', action: 'Preparar riego', soil: '25% (Seco)', alert: 'Temperatura en ascenso rápido.', img: '/images/estados-penco/penco-recuperacion.png', color: 'yellow' },
+  { day: 'Jue', temp: 33, hum: 15, status: 'Crítico', action: 'Riego de auxilio', soil: '18% (Crítico)', alert: 'Pico de 33°C con baja humedad.', img: '/images/estados-penco/penco-estres-termico.png', color: 'orange' },
+  { day: 'Vie', temp: 27, hum: 45, status: 'Recuperación', action: 'Evaluar respuesta', soil: '35% (Mejorando)', alert: 'Temperatura baja, humedad sube.', img: '/images/estados-penco/penco-recuperacion.png', color: 'yellow' },
+  { day: 'Sáb', temp: 22, hum: 60, status: 'Saludable', action: 'Monitoreo normal', soil: '48% (Óptimo)', alert: 'Condiciones óptimas restauradas.', img: '/images/estados-penco/penco-saludable.png', color: 'green' },
+  { day: 'Dom', temp: 21, hum: 65, status: 'Saludable', action: 'Monitoreo normal', soil: '50% (Óptimo)', alert: 'Día fresco y húmedo.', img: '/images/estados-penco/penco-saludable.png', color: 'green' },
 ];
 
 const chartConfig = {
@@ -46,6 +46,9 @@ export default function PlantsPage() {
   const [count, setCount] = useState(1306);
   const [open, setOpen] = useState(false);
   const [quantity, setQuantity] = useState('12');
+  
+  const [hoveredData, setHoveredData] = useState(climateForecast[3]);
+
   const addPlants = (event: FormEvent<HTMLFormElement>) => { event.preventDefault(); setCount((value) => value + Number(quantity || 0)); setOpen(false); };
 
   return (
@@ -63,13 +66,12 @@ export default function PlantsPage() {
         {samples.map((sample) => <Card className="detail-card" key={sample.code}><CardContent><div className="detail-icon"><Sprout /></div><Badge variant={sample.status === 'Saludable' ? 'default' : 'secondary'} className="mt-4">{sample.status}</Badge><h3>{sample.code}</h3><p>{sample.age} · Último control: 15/08/2026</p><div className="product-meta"><span><Ruler className="inline size-3" /> Altura {sample.height}</span><span>Diámetro {sample.diameter}</span></div><Button variant="outline" size="sm" className="mt-4 w-full">Ver historial</Button></CardContent></Card>)}
       </section>
 
-      {/* NUEVO MÓDULO: Modelo Predictivo */}
       <section className="mt-12 space-y-6">
         <div>
-          <h2 className="text-xl font-semibold tracking-tight">Modelo Predictivo de Estrés</h2>
-          <p className="text-muted-foreground">Proyección climática a 7 días y su impacto estimado en el cultivo de penco.</p>
+          <h2 className="text-xl font-semibold tracking-tight">Gemelo Digital: Proyección Biofísica</h2>
+          <p className="text-muted-foreground">Desliza el ratón sobre la gráfica climática para visualizar el impacto proyectado en la planta.</p>
         </div>
-        <div className="grid gap-6 md:grid-cols-[2fr_1fr]">
+        <div className="grid gap-6 md:grid-cols-[2fr_1.2fr]">
           <Card>
             <CardHeader>
               <CardTitle>Pronóstico de Variables</CardTitle>
@@ -77,7 +79,16 @@ export default function PlantsPage() {
             </CardHeader>
             <CardContent>
               <ChartContainer config={chartConfig} className="min-h-[250px] w-full">
-                <AreaChart accessibilityLayer data={climateForecast} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                <AreaChart 
+                  accessibilityLayer 
+                  data={climateForecast} 
+                  margin={{ top: 10, right: 10, left: -20, bottom: 0 }}
+                  onMouseMove={(e: any) => {
+                    if (e.activePayload && e.activePayload.length > 0) {
+                      setHoveredData(e.activePayload[0].payload);
+                    }
+                  }}
+                >
                   <CartesianGrid vertical={false} strokeDasharray="3 3" />
                   <XAxis dataKey="day" tickLine={false} axisLine={false} tickMargin={8} />
                   <YAxis yAxisId="left" tickLine={false} axisLine={false} tickMargin={8} />
@@ -92,34 +103,51 @@ export default function PlantsPage() {
 
           <Card className="flex flex-col">
             <CardHeader>
-              <CardTitle>Estado Proyectado</CardTitle>
-              <CardDescription>Impacto en parcela &quot;El Mirador&quot;</CardDescription>
+              <CardTitle>Estado Proyectado: {hoveredData.day}</CardTitle>
+              <CardDescription>Impacto simulado en parcela &quot;El Mirador&quot;</CardDescription>
             </CardHeader>
-            <CardContent className="flex-1 flex flex-col justify-center gap-6">
-              <div className="flex items-center gap-4 rounded-lg bg-orange-50 p-4 border border-orange-200 dark:bg-orange-950/50 dark:border-orange-900">
-                <div className="rounded-full bg-orange-100 p-3 text-orange-600 dark:bg-orange-900 dark:text-orange-300">
-                  <ThermometerSun className="size-6" />
+            <CardContent className="flex-1 flex flex-col justify-between gap-4">
+              
+              <div className="relative w-full h-[180px] rounded-lg overflow-hidden border bg-white flex items-center justify-center p-2">
+                <img 
+                  src={hoveredData.img} 
+                  alt={`Estado de la planta el día ${hoveredData.day}`}
+                  className="max-h-full object-contain transition-all duration-300"
+                />
+              </div>
+
+              <div className={`flex items-center gap-3 rounded-lg p-3 border ${
+                hoveredData.color === 'orange' ? 'bg-orange-50 border-orange-200 text-orange-900' :
+                hoveredData.color === 'yellow' ? 'bg-yellow-50 border-yellow-200 text-yellow-900' :
+                'bg-green-50 border-green-200 text-green-900'
+              }`}>
+                <div className={`rounded-full p-2 ${
+                  hoveredData.color === 'orange' ? 'bg-orange-100' :
+                  hoveredData.color === 'yellow' ? 'bg-yellow-100' :
+                  'bg-green-100'
+                }`}>
+                  {hoveredData.color === 'orange' ? <ThermometerSun className="size-5" /> : <Sprout className="size-5" />}
                 </div>
                 <div>
-                  <h4 className="font-medium text-orange-900 dark:text-orange-50">Alerta de Estrés Hídrico</h4>
-                  <p className="text-sm text-orange-700 dark:text-orange-200/80">Pico de 33°C el Jueves con baja humedad.</p>
+                  <h4 className="font-medium text-sm">{hoveredData.status}</h4>
+                  <p className="text-xs opacity-90">{hoveredData.alert}</p>
                 </div>
               </div>
-              <div className="space-y-3 text-sm">
-                <div className="flex justify-between items-center border-b pb-2">
-                  <span className="text-muted-foreground flex items-center gap-2"><Sun className="size-4" /> Tasa de transpiración</span>
-                  <span className="font-medium">Alta</span>
+
+              <div className="space-y-2 text-sm mt-2">
+                <div className="flex justify-between items-center border-b pb-1">
+                  <span className="text-muted-foreground flex items-center gap-2"><Sun className="size-3.5" /> Temperatura proj.</span>
+                  <span className="font-medium">{hoveredData.temp}°C</span>
                 </div>
-                <div className="flex justify-between items-center border-b pb-2">
-                  <span className="text-muted-foreground flex items-center gap-2"><Droplets className="size-4" /> Humedad del suelo est.</span>
-                  <span className="font-medium text-orange-600 dark:text-orange-400">18% (Crítico)</span>
+                <div className="flex justify-between items-center border-b pb-1">
+                  <span className="text-muted-foreground flex items-center gap-2"><Droplets className="size-3.5" /> Humedad del suelo est.</span>
+                  <span className={`font-medium ${hoveredData.color === 'orange' ? 'text-orange-600' : ''}`}>{hoveredData.soil}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-muted-foreground flex items-center gap-2"><Sprout className="size-4" /> Acción recomendada</span>
-                  <span className="font-medium">Riego de auxilio</span>
+                  <span className="text-muted-foreground flex items-center gap-2"><Sprout className="size-3.5" /> Acción sugerida</span>
+                  <span className="font-medium text-xs">{hoveredData.action}</span>
                 </div>
               </div>
-              <Button className="w-full mt-auto" variant="outline">Programar actividad</Button>
             </CardContent>
           </Card>
         </div>
