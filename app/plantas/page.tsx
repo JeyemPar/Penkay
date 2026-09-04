@@ -78,6 +78,19 @@ export default function PlantsPage() {
               <CardDescription>Evolución de temperatura y humedad en el microclima de la parcela.</CardDescription>
             </CardHeader>
             <CardContent>
+              <div className="flex gap-2 mb-4 overflow-x-auto pb-2 scrollbar-none px-1">
+                {climateForecast.map((data) => (
+                  <Button 
+                    key={data.day}
+                    variant={hoveredData.day === data.day ? "default" : "outline"}
+                    size="sm"
+                    className="flex-shrink-0 rounded-full h-8 px-4"
+                    onClick={() => setHoveredData(data)}
+                  >
+                    {data.day}
+                  </Button>
+                ))}
+              </div>
               <ChartContainer config={chartConfig} className="min-h-[250px] w-full">
                 <AreaChart 
                   accessibilityLayer 
@@ -89,6 +102,16 @@ export default function PlantsPage() {
                     }
                   }}
                   onMouseMove={(e: any) => {
+                    if (e && e.activePayload && e.activePayload.length > 0) {
+                      setHoveredData(e.activePayload[0].payload);
+                    }
+                  }}
+                  onTouchStart={(e: any) => {
+                    if (e && e.activePayload && e.activePayload.length > 0) {
+                      setHoveredData(e.activePayload[0].payload);
+                    }
+                  }}
+                  onTouchMove={(e: any) => {
                     if (e && e.activePayload && e.activePayload.length > 0) {
                       setHoveredData(e.activePayload[0].payload);
                     }
