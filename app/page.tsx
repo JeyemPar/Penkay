@@ -15,6 +15,8 @@ import {
   Users,
 } from 'lucide-react';
 
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis, ResponsiveContainer, LabelList, Cell } from 'recharts';
+
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -36,7 +38,7 @@ import {
 
 const navigation = [
   { label: 'Comunidad', href: '/comunidad' },
-  { label: 'GreenBank', href: '/greenbank' },
+  { label: 'GreenTrace', href: '/greentrace' },
   { label: 'Productos', href: '/productos' },
   { label: 'Proveedores', href: '/proveedores' },
 ];
@@ -317,6 +319,49 @@ function GrowthChart() {
   );
 }
 
+const topProductsData = [
+  { name: 'Shampoo orgánico', value: 65.0 },
+  { name: 'Jarabes medicinales', value: 57.5 },
+  { name: 'Vinagre', value: 55.1 },
+  { name: 'Mermelada', value: 51.9 },
+  { name: 'Helados caseros', value: 51.0 },
+];
+
+function MarketStudyChart() {
+  return (
+    <section className="page-shell mt-16 mb-8">
+      <div className="section-intro">
+        <div>
+          <p className="eyebrow">Análisis Académico</p>
+          <h2>Top de Productos Derivados</h2>
+        </div>
+        <p>Potencial de aceptación en el mercado, según el estudio referencial de Fernando Javier Villarreal Salazar (Docente UPEC).</p>
+      </div>
+      <Card className="surface-card max-w-3xl mx-auto shadow-md">
+        <CardContent className="pt-8">
+          <div className="h-[380px] w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={topProductsData} layout="vertical" margin={{ top: 20, right: 70, left: 30, bottom: 5 }}>
+                <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} stroke="var(--border)" />
+                <XAxis type="number" hide domain={[0, 70]} />
+                <YAxis dataKey="name" type="category" axisLine={false} tickLine={false} width={160} tick={{ fill: 'currentColor', fontSize: 14, fontWeight: 500 }} />
+                <Bar dataKey="value" radius={[0, 6, 6, 0]} barSize={40}>
+                  <LabelList dataKey="value" position="right" formatter={(value: number) => `${value}%`} style={{ fill: 'currentColor', fontWeight: 700, fontSize: 18 }} />
+                  {
+                    topProductsData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={index === 0 ? '#34d399' : '#3b82f6'} />
+                    ))
+                  }
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </CardContent>
+      </Card>
+    </section>
+  );
+}
+
 function Home() {
   return (
     <>
@@ -338,6 +383,8 @@ function Home() {
             <GrowthChart />
           </div>
         </section>
+
+        <MarketStudyChart />
 
         <section className="ecosystem-section">
           <div className="page-shell">

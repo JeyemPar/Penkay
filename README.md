@@ -2,6 +2,8 @@
 
 Prototipo funcional responsive de Penkay, basado en el documento fuente `PencoNexo_Wireframe_Funcional_TS_JS.md`.
 
+Consulta [ARQUITECTURA_MVP.md](./ARQUITECTURA_MVP.md) para conocer la arquitectura, los módulos, los flujos funcionales y los límites de esta versión.
+
 ## Requisitos
 
 - Node.js 22.13 o superior
@@ -49,7 +51,7 @@ La autenticación es simulada para el prototipo y no requiere variables de entor
 - `/productos` — catálogo filtrable y trazabilidad QR
 - `/proveedores` — insumos, servicios y distribución
 - `/comunidad` — academia, PencoTech y alianzas
-- `/greenbank` — indicadores y pasaporte ambiental
+- `/greentrace` — indicadores y pasaporte ambiental
 - `/reportes` — generación de vistas imprimibles
 
 ## Producción

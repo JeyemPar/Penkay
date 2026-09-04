@@ -14,7 +14,7 @@ import {
   Sprout,
   Store,
   UserRound,
-  WalletCards,
+  Fingerprint,
 } from 'lucide-react';
 
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
@@ -34,7 +34,7 @@ const links = [
   { label: 'Resumen', href: '/perfil', icon: Home },
   { label: 'Parcelas', href: '/parcelas', icon: Map },
   { label: 'Plantas', href: '/plantas', icon: Sprout },
-  { label: 'GreenBank', href: '/greenbank', icon: WalletCards },
+  { label: 'GreenTrace', href: '/greentrace', icon: Fingerprint },
   { label: 'Productos', href: '/productos', icon: PackageOpen },
   { label: 'Proveedores', href: '/proveedores', icon: Store },
   { label: 'Comunidad', href: '/comunidad', icon: BookOpen },
