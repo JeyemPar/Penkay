@@ -10,6 +10,7 @@
     "dev:host": "vinext dev --host",
     "build": "vinext build",
     "start": "wrangler dev --config dist/server/wrangler.json",
+    "start:host": "wrangler dev --config dist/server/wrangler.json --ip 0.0.0.0",
     "lint": "oxlint",
     "format": "oxfmt"
   },
