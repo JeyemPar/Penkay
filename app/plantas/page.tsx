@@ -83,8 +83,13 @@ export default function PlantsPage() {
                   accessibilityLayer 
                   data={climateForecast} 
                   margin={{ top: 10, right: 10, left: -20, bottom: 0 }}
+                  onClick={(e: any) => {
+                    if (e && e.activePayload && e.activePayload.length > 0) {
+                      setHoveredData(e.activePayload[0].payload);
+                    }
+                  }}
                   onMouseMove={(e: any) => {
-                    if (e.activePayload && e.activePayload.length > 0) {
+                    if (e && e.activePayload && e.activePayload.length > 0) {
                       setHoveredData(e.activePayload[0].payload);
                     }
                   }}
