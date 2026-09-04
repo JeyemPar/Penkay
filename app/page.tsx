@@ -6,7 +6,6 @@ import {
   ChevronRight,
   CircleUserRound,
   Drone,
-  Leaf,
   MapPinned,
   Menu,
   PackageOpen,
@@ -106,7 +105,11 @@ function Brand() {
   return (
     <a className="brand" href="/" aria-label="Penkay, inicio">
       <span className="brand-mark" aria-hidden="true">
-        <Leaf />
+        <img
+          src="/images/logo-penkay-symbol.png"
+          alt="Logo Penkay"
+          className="brand-logo-img"
+        />
       </span>
       <span>
         <strong>Penkay</strong>

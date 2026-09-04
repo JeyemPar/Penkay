@@ -13,10 +13,10 @@ export const timeline = [
 ];
 
 export const products = [
-  { name: 'Miel de agave', category: 'Alimentos', producer: 'Asociación El Ángel', community: 'El Ángel', availability: 'Disponible', trace: 'PN-PRO-0048' },
-  { name: 'Fibra de penco', category: 'Fibra', producer: 'Cooperativa Mira', community: 'Mira', availability: 'Por encargo', trace: 'PN-PRO-0091' },
-  { name: 'Jarabe artesanal', category: 'Alimentos', producer: 'Familia Paredes', community: 'San Isidro', availability: 'Disponible', trace: 'PN-PRO-0127' },
-  { name: 'Hijuelos seleccionados', category: 'Plantas', producer: 'Vivero Andino', community: 'Bolívar', availability: 'Temporada', trace: 'PN-PRO-0174' },
-  { name: 'Compost de penco', category: 'Insumos', producer: 'BioCarchi', community: 'Montúfar', availability: 'Disponible', trace: 'PN-PRO-0198' },
-  { name: 'Tejido de cabuya', category: 'Artesanía', producer: 'Manos de Altura', community: 'Julio Andrade', availability: 'Disponible', trace: 'PN-PRO-0213' },
+  { name: 'Miel de agave', category: 'Alimentos', producer: 'Asociación El Ángel', community: 'El Ángel', availability: 'Disponible', trace: 'PN-PRO-0048', image: '/images/miel-de-agave.png' },
+  { name: 'Fibra de penco', category: 'Fibra', producer: 'Cooperativa Mira', community: 'Mira', availability: 'Por encargo', trace: 'PN-PRO-0091', image: '/images/fibra-de-penco.png' },
+  { name: 'Jarabe artesanal', category: 'Alimentos', producer: 'Familia Paredes', community: 'San Isidro', availability: 'Disponible', trace: 'PN-PRO-0127', image: '/images/jarabe.png' },
+  { name: 'Hijuelos seleccionados', category: 'Plantas', producer: 'Vivero Andino', community: 'Bolívar', availability: 'Temporada', trace: 'PN-PRO-0174', image: '/images/hijuelos.png' },
+  { name: 'Compost de penco', category: 'Insumos', producer: 'BioCarchi', community: 'Montúfar', availability: 'Disponible', trace: 'PN-PRO-0198', image: '/images/compost.png' },
+  { name: 'Tejido de cabuya', category: 'Artesanía', producer: 'Manos de Altura', community: 'Julio Andrade', availability: 'Disponible', trace: 'PN-PRO-0213', image: '/images/tejido.png' },
 ];

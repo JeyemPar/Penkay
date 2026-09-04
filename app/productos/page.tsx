@@ -43,7 +43,17 @@ export default function ProductsPage() {
       <div className="product-grid">
         {filtered.map((product) => (
           <Card className="product-card" key={product.trace}>
-            <div className="product-art"><Badge className="product-category">{product.category}</Badge></div>
+            <div className="product-art">
+              <Badge className="product-category">{product.category}</Badge>
+              {product.image && (
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="product-image"
+                  loading="lazy"
+                />
+              )}
+            </div>
             <CardContent>
               <h3>{product.name}</h3>
               <p className="producer">{product.producer}</p>

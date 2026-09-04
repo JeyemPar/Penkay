@@ -6,7 +6,6 @@ import {
   BookOpen,
   FileText,
   Home,
-  Leaf,
   LogOut,
   Map,
   Menu,
@@ -44,7 +43,13 @@ const links = [
 function AppBrand() {
   return (
     <a className="app-brand" href="/">
-      <span><Leaf /></span>
+      <span className="app-brand-mark">
+        <img
+          src="/images/logo-penkay-symbol.png"
+          alt="Logo Penkay"
+          className="brand-logo-img"
+        />
+      </span>
       <strong>Penkay</strong>
     </a>
   );

@@ -1,7 +1,7 @@
 'use client';
 
 import { FormEvent, useState } from 'react';
-import { ArrowLeft, Eye, EyeOff, Leaf, LoaderCircle, LockKeyhole, Mail, UserRound } from 'lucide-react';
+import { ArrowLeft, Eye, EyeOff, LoaderCircle, LockKeyhole, Mail, UserRound } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -42,7 +42,13 @@ export default function LoginPage() {
         <img src="/penco-andes-hero.png" alt="Cultivo de penco en los Andes al amanecer" />
         <div className="login-message">
           <a className="app-brand" href="/">
-            <span><Leaf /></span>
+            <span className="app-brand-mark">
+              <img
+                src="/images/logo-penkay-symbol.png"
+                alt="Logo Penkay"
+                className="brand-logo-img"
+              />
+            </span>
             <strong>Penkay</strong>
           </a>
           <h1>Tu parcela, su historia y lo que viene.</h1>
