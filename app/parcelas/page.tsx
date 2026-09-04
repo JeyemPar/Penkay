@@ -19,48 +19,40 @@ const initialParcels = [
 ];
 
 function LargeMap({ layer, year }: { layer: string, year: string }) {
-  const getFilter = () => {
+  const getImageUrl = () => {
     switch (layer) {
-      case 'ndvi': return 'url(#ndviFilter)';
-      case 'moisture': return 'url(#moistureFilter)';
-      case 'erosion': return 'url(#erosionFilter)';
-      default: return 'none';
+      case 'ndvi':
+        return '/images/satelite/vegetacion-real.png';
+      case 'moisture':
+        return '/images/satelite/humedad.png';
+      case 'erosion':
+        return '/images/satelite/erosion.png';
+      case 'real':
+      default:
+        return '/images/satelite/color-real.png';
     }
   };
 
-  return <div className="map-canvas relative" aria-label="Mapa satelital de parcelas">
-    <svg viewBox="0 0 640 380" role="img" aria-label="Mapa esquemático con tres zonas de la finca">
-      <defs>
-        <filter id="ndviFilter"><feColorMatrix type="matrix" values="0 0 0 0 0   0 1 0 0 0   0 0 0 0 0  0 0 0 1 0" /></filter>
-        <filter id="moistureFilter"><feColorMatrix type="matrix" values="0 0 0 0 0.1   0 0 0 0 0.4   1 1 1 1 0.8  0 0 0 1 0" /></filter>
-        <filter id="erosionFilter"><feColorMatrix type="matrix" values="1 0 0 0 0.8   0.3 0 0 0 0.2   0 0 0 0 0  0 0 0 1 0" /></filter>
-      </defs>
+  return (
+    <div className="map-canvas relative overflow-hidden rounded-md border" aria-label="Mapa satelital de parcelas">
+      <img
+        src={getImageUrl()}
+        alt={`Vista satelital de capa ${layer}`}
+        className="w-full h-[380px] object-cover transition-opacity duration-500"
+      />
       
-      {/* Capa Base simulada para Copernicus */}
-      <rect width="640" height="380" fill={layer === 'real' ? '#3e4a3b' : '#f0f0f0'} />
-      <g filter={getFilter()} style={{ transition: 'filter 0.5s ease' }}>
-        <path className="contour c1" d="M-20 280C90 160 170 340 290 230S500 92 675 206" fill={layer === 'real' ? '#4f604b' : '#d2dcd0'} />
-        <path className="contour c2" d="M-35 330C70 210 190 370 330 266S510 145 680 280" fill={layer === 'real' ? '#61765c' : '#bdccbb'} />
-        <path className="route-line" d="M70 274L150 218L276 244L390 140L550 180" stroke={layer === 'real' ? '#aaa' : '#fff'} />
-        <path className="plot plot-one" d="M114 274l106-90 120 54-82 103z" fill={layer === 'real' ? '#a2cf6e' : '#a2cf6e'} fillOpacity={year === '2024' ? 0.3 : 0.8} />
-        <path className="plot plot-two" d="M354 219l90-91 89 42-61 101z" fill={layer === 'real' ? '#8bc34a' : '#8bc34a'} fillOpacity={year === '2024' ? 0.4 : 0.9} />
-      </g>
-      
-      <circle className="map-point active" cx="150" cy="218" r="9" fill="#10b981" />
-      <circle className="map-point hub" cx="390" cy="140" r="10" fill="#3b82f6" />
-    </svg>
-    
-    <div className="absolute top-4 left-4 bg-background/90 backdrop-blur p-2 rounded-md border text-xs flex gap-2">
-      <Badge variant="outline" className="bg-background"><SatelliteDish className="mr-1 size-3" /> Copernicus Data Space</Badge>
-      <Badge variant="outline" className="bg-background"><History className="mr-1 size-3" /> Año: {year}</Badge>
-    </div>
+      <div className="absolute top-4 left-4 bg-background/90 backdrop-blur p-2 rounded-md border text-xs flex gap-2 shadow-sm">
+        <Badge variant="outline" className="bg-background"><SatelliteDish className="mr-1 size-3" /> Copernicus Data Space</Badge>
+        <Badge variant="outline" className="bg-background"><History className="mr-1 size-3" /> Año: {year}</Badge>
+      </div>
 
-    <div className="map-legend">
-      <span><i className="legend-dot productive" /> Apta</span>
-      <span><i className="legend-dot conservation" /> Conservación</span>
-      <span><i className="legend-dot center" /> Monitoreo</span>
+      <div className="map-legend absolute bottom-4 left-4 bg-background/90 backdrop-blur p-2 rounded-md border shadow-sm flex flex-col gap-1 text-xs">
+        <span className="flex items-center gap-2"><i className="legend-dot productive" /> Apta</span>
+        <span className="flex items-center gap-2"><i className="legend-dot conservation" /> Conservación</span>
+        <span className="flex items-center gap-2"><i className="legend-dot center" /> Monitoreo</span>
+      </div>
     </div>
-  </div>;
+  );
 }
 
 export default function ParcelsPage() {
